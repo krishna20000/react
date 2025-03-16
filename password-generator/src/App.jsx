@@ -31,7 +31,7 @@ const App = () => {
       if (numberAllowed) str += "0123456789"
       if (charAllowed) str += "!@#$%^&*()_+~"
       if (lowerAllowed) str += "abcdefghijklmnopqrstuvwxyz"
-      for(let i of Array(length - password.length).fill("")){
+      for (let i = 0; i < length; i++){
         password += str[Math.floor(Math.random() * str.length)];
       }
       setPassword(password);
