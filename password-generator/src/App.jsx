@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 
 import React from 'react'
 import './App.css'
@@ -9,6 +9,20 @@ const App = () => {
   const [charAllowed,setcharAllowed] = useState(false);
   const [lowerAllowed,setlowerAllowed] = useState(false);
   const [password,setPassword] = useState("");
+  const [copied,setCopied] = useState(false);
+
+
+  const passwordRef = useRef(null);
+
+  const copyPasswordtoClipboard = useCallback(() => {
+    if (passwordRef.current) {
+      passwordRef.current.select();
+      window.navigator.clipboard.writeText(password);
+
+      setCopied(true); // ✅ Show "Copied!" message
+      setTimeout(() => setCopied(false), 2000); // ✅ Hide message after 2 sec
+    }
+  },[password])
 
   const passwordGenerator = useCallback(
     () => {
@@ -40,13 +54,16 @@ const App = () => {
             value={password}
             className='w-full p-2 text-lg text-gray-800 bg-gray-100 '
             placeholder='Password'
-            readOnly/>
+            readOnly
+            ref={passwordRef}
+            />
             <button 
-            onClick={passwordGenerator}
+            onClick={copyPasswordtoClipboard}
             className='outline-none bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 '>
               copy
             </button>
         </div>
+        {copied && <p className="text-green-400 text-center mt-2">Copied!</p>}
         <div className="flex flex-col gap-3">
   {/* Range slider on one line */}
   <div className="flex items-center gap-2">
