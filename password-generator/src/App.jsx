@@ -16,12 +16,14 @@ const App = () => {
 
   const copyPasswordtoClipboard = useCallback(() => {
     if (passwordRef.current) {
-      passwordRef.current.select();
+      // passwordRef.current.select();//focus();
       window.navigator.clipboard.writeText(password);
 
       setCopied(true); // ✅ Show "Copied!" message
       setTimeout(() => setCopied(false), 2000); // ✅ Hide message after 2 sec
     }
+    
+    // passwordRef.current?.setSelectionRange(0, 15);
   },[password])
 
   const passwordGenerator = useCallback(
@@ -36,7 +38,7 @@ const App = () => {
       }
       setPassword(password);
     },
-    [length, numberAllowed, charAllowed,lowerAllowed, setPassword]
+    [length, numberAllowed, charAllowed,lowerAllowed]
   )
   
   useEffect(() => {
